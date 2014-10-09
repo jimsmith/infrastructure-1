@@ -36,7 +36,7 @@ You will need to execute the following from within your guest os.
 
     source /vagrant/env/bin/activate
     cd /vagrant/extensions
-    git clone git@github.com:okfn/ckanext-glasgow.git
+    git clone https://github.com/okfn/ckanext-glasgow.git
     cd ckanext-glasgow/
     python setup.py develop
     pip install -r requirements.txt
@@ -46,5 +46,5 @@ You will need to execute the following from within your guest os.
 Now you have your box running to run the CKAN development environment
 you'll need to do the following from within your guest os.
 
-   source /vagrant/env/bin/activate
-   paster serve /vagrant/ckan/development.ini
+    source /vagrant/env/bin/activate
+    paster serve /vagrant/ckan/development.ini
