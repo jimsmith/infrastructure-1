@@ -46,16 +46,16 @@ first part covers how to create a new extension. This is taken from the
 
 __This all should take place on the guest os__
 
-    ```bash
-    source /vagrant/env/bin/activate
-    cd /vagrant/env/src
-    # Create your new blank extension
-    paster --plugin=ckan create -t ckanext ckanext-example_theme
+```bash
+source /vagrant/env/bin/activate
+cd /vagrant/env/src
+# Create your new blank extension
+paster --plugin=ckan create -t ckanext ckanext-example_theme
 
-    # Move it into the extensions folder, this is available to both
-    # host and guest OS
-    mv ckanext-example_theme /vagrant/extensions/
-    ```
+# Move it into the extensions folder, this is available to both
+# host and guest OS
+mv ckanext-example_theme /vagrant/extensions/
+```
 
 Now you need to create the plugin file:
 
@@ -63,26 +63,26 @@ Now you need to create the plugin file:
 
 and enter the following:
 
-    ```python
-    import ckan.plugins as plugins
-    import ckan.plugins.toolkit as toolkit
+```python
+import ckan.plugins as plugins
+import ckan.plugins.toolkit as toolkit
 
 
-    class ExampleThemePlugin(plugins.SingletonPlugin):
-        '''An example theme plugin.
+class ExampleThemePlugin(plugins.SingletonPlugin):
+    '''An example theme plugin.
 
-        '''
-        # Declare that this class implements IConfigurer.
-        plugins.implements(plugins.IConfigurer)
+    '''
+    # Declare that this class implements IConfigurer.
+    plugins.implements(plugins.IConfigurer)
 
-        def update_config(self, config):
+    def update_config(self, config):
 
-            # Add this plugin's templates dir to CKAN's extra_template_paths, so
-            # that CKAN will use this plugin's custom templates.
-            # 'templates' is the path to the templates dir, relative to this
-            # plugin.py file.
-            toolkit.add_template_directory(config, 'templates')
-    ```
+        # Add this plugin's templates dir to CKAN's extra_template_paths, so
+        # that CKAN will use this plugin's custom templates.
+        # 'templates' is the path to the templates dir, relative to this
+        # plugin.py file.
+        toolkit.add_template_directory(config, 'templates')
+```
 
 Now you need to edit
 
@@ -90,12 +90,12 @@ Now you need to edit
 
 and change the enty point to be
 
-    ```python
-    entry_points='''
-        [ckan.plugins]
-        example_theme=ckanext.example_theme.plugin:ExampleThemePlugin
-    ''',
-    ```
+```python
+entry_points='''
+    [ckan.plugins]
+    example_theme=ckanext.example_theme.plugin:ExampleThemePlugin
+''',
+```
 
 Now we need to add our new template file. If for example we were going
 to replace the homepage we would need to create a file
@@ -117,11 +117,11 @@ In the ini file add your new plugin to the list of plugins
 
 Now install the plugin
 
-    ```bash
-    source /vagrant/env/bin/activate
-    cd /vagrant/extensions/ckanext-example_theme
-    python setup.py develop
-    ```
+```bash
+source /vagrant/env/bin/activate
+cd /vagrant/extensions/ckanext-example_theme
+python setup.py develop
+```
 
 You can now restart your development server and see your changes!
 
@@ -134,18 +134,18 @@ will need to push it up and make some changes to the infrastructure repo.
 
 __This is all performed on your HOST OS__
 
-    ```bash
-    cd ~/openglasgow/opendata/extensions/ckanext-example_theme
-    git push origin master
-    ```
+```bash
+cd ~/openglasgow/opendata/extensions/ckanext-example_theme
+git push origin master
+```
 
 Ensure that your plugin is added to the .ini file as above then edit the
 infrastructure requirements to include your new extension.
 
-    ```bash
-    cd ~/openglasgow/opendata/infrastructure
-    vi requirements.txt
-    ```
+```bash
+cd ~/openglasgow/opendata/infrastructure
+vi requirements.txt
+```
 
 You can install directly from git via pip using the following syntax
 
@@ -156,21 +156,21 @@ you push up your infrastructure branch and issue a pull request.
 
 Now you're ready to make the changes in vagrant.
 
-    ```bash
-    cd ~/openglasgow/opendata
-    vagrant up
-    vagrant ssh
+```bash
+cd ~/openglasgow/opendata
+vagrant up
+vagrant ssh
 
-    # uninstall the develop version
-    cd /vagrant/extensions/ckanext-example_theme
-    python setup.py develop --uninstall
+# uninstall the develop version
+cd /vagrant/extensions/ckanext-example_theme
+python setup.py develop --uninstall
 
-    # If you're sure you do not have any unpushed branches etc you
-    # are now safe to remove this directory
-    cd ..
-    rm -rf ckanext-example_theme
+# If you're sure you do not have any unpushed branches etc you
+# are now safe to remove this directory
+cd ..
+rm -rf ckanext-example_theme
 
-    # finally you can install using the requirements file
-    cd /vagrant/infrastructure
-    pip install -r requirements.txt
-    ```
+# finally you can install using the requirements file
+cd /vagrant/infrastructure
+pip install -r requirements.txt
+```
