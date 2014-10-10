@@ -36,17 +36,19 @@ pip install pylons
 echo "install ckan glasgow extension"
 mkdir -p /vagrant/extensions
 cd /vagrant/extensions
-git clone git@github.com:okfn/ckanext-glasgow.git
+git clone https://github.com/okfn/ckanext-glasgow.git
 cd ckanext-glasgow/
 python setup.py develop
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 
 echo "setup postgresql"
-sudo -u postgres psql -f /vagrant/infrastructure/data/initial.sql
-#sudo -u postgres createuser -S -D -R --no-password ckan_default
-#sudo -u postgres psql -c "alter user ckan_default with password 'pass'"
-#sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
+sudo -u postgres createuser -S -D -R --no-password ckan_default
+sudo -u postgres psql -c "alter user ckan_default with password 'pass'"
+sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
+#sudo -u postgres psql -f /vagrant/infrastructure/data/initial.sql
+
+sudo -u postgres psql -U ckan_default -d ckan_default -a -f /vagrant/infrastructure/data/initial.sql
 
 echo "create ckan config files"
 mkdir -p /vagrant/ckan
@@ -63,9 +65,9 @@ sudo rm -f /etc/solr/conf/schema.xml
 sudo ln -s /vagrant/env/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 sudo service jetty restart
 
-#echo "create db tables"
-#cd /vagrant/env/src/ckan
-#paster db init -c /vagrant/ckan/development.ini
+echo "create db tables"
+cd /vagrant/env/src/ckan
+paster db init -c /vagrant/ckan/development.ini
 
 echo "link who.ini"
 ln -s /vagrant/env/src/ckan/who.ini /vagrant/ckan/who.ini
@@ -77,5 +79,15 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 echo "compile ckan css"
 sudo npm install less -g
 lessc /vagrant/env/src/ckan/ckan/public/base/less/main.less > /vagrant/env/src/ckan/ckan/public/base/css/main.debug.css
+
+echo "configure the terminal"
+ln -s /vagrant/infrastructure/dot.files/.aliases ~/.aliases
+ln -s /vagrant/infrastructure/dot.files/.autocomplete ~/.autocomplete
+ln -s /vagrant/infrastructure/dot.files/.bash_profile ~/.bash_profile
+ln -s /vagrant/infrastructure/dot.files/.editorconfig ~/.editorconfig
+ln -s /vagrant/infrastructure/dot.files/.exports ~/.exports
+ln -s /vagrant/infrastructure/dot.files/.functions ~/.functions
+ln -s /vagrant/infrastructure/dot.files/.git-completion.sh ~/.git-completion.sh
+ln -s /vagrant/infrastructure/dot.files/.prompt ~/.prompt
 
 touch ~/.bootstrapped
