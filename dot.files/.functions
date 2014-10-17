@@ -1,0 +1,10 @@
+# Files and folders
+# Create a new directory and enter it
+function md() {
+    mkdir -p "$@" && cd "$@"
+}
+
+# Grep over History
+function hgrep () {
+    history | grep ${*:1}
+}

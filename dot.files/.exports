@@ -1,0 +1,2 @@
+export PATH=~/bin:/usr/local/git/bin:/usr/local/heroku/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin
+export VIRTUAL_ENV_DISABLE_PROMPT=1

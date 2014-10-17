@@ -1,0 +1,32 @@
+# Coding Style for EditorConfig
+# Author: Aaron Bassett
+#
+# https://github.com/aaronbassett/EditorConfig
+# Released under the MIT license
+
+# top-most EditorConfig file
+root = true
+
+# defaults for all filetypes
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+# Experimental / Domain specific properties
+curly_bracket_next_line = false
+spaces_around_operators = true
+spaces_around_brackets = false
+indent_brace_style = KNF
+
+[*.{html,htm}]
+trim_trailing_whitespace = false
+
+[*.{py,coffee,coffeescript}]
+insert_final_newline = true
+max_line_length = 99
+
+[Makefile]
+indent_style = tab

@@ -1,0 +1,30 @@
+# Easier navigation: .., ..., ~ and -
+alias ..="cd .."
+alias cd..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+# File operations
+alias cp="cp -ir"
+alias mv="mv -i"
+alias rm="rm -i"
+alias rmf="rm -fv"
+alias rmrf="rm -rfv"
+
+# Misc shortcuts
+alias cls="clear"
+
+# be nice
+alias please=sudo
+# not so nice
+alias fucking=sudo
+
+# viewing files and directories
+alias ls="command ls -G"
+alias lsd='ls -l | grep "^d"'
+alias l="ls -lG"
+alias la="ls -laG"
+alias fs="stat -f \"%z bytes\""
